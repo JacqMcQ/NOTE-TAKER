@@ -13,6 +13,13 @@ if (window.location.pathname === '/notes') {
   newNoteBtn = document.querySelector('.new-note');
   clearBtn = document.querySelector('.clear-btn');
   noteList = document.querySelectorAll('.list-container .list-group');
+
+  if (saveNoteBtn && newNoteBtn && clearBtn && noteForm) {
+    saveNoteBtn.addEventListener('click', handleNoteSave);
+    newNoteBtn.addEventListener('click', handleNewNoteView);
+    clearBtn.addEventListener('click', handleClearForm);
+    noteForm.addEventListener('input', handleRenderBtns);
+  }
 }
 
 // Show an element
@@ -34,6 +41,11 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json'
     }
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
   });
 
 const saveNote = (note) =>
@@ -80,7 +92,8 @@ const handleNoteSave = () => {
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
-  });
+  }).catch
+    (error => console.error('Error saving note:', error));
 };
 
 // Delete the clicked note
@@ -95,10 +108,12 @@ const handleNoteDelete = (e) => {
     activeNote = {};
   }
 
-  deleteNote(noteId).then(() => {
+  deleteNote(noteId)
+  .then(() => {
     getAndRenderNotes();
     renderActiveNote();
-  });
+  })
+  .catch(error => console.error('Error deleting note:', error));
 };
 
 // Sets the activeNote and displays it
@@ -192,3 +207,10 @@ if (window.location.pathname === '/notes') {
 }
 
 getAndRenderNotes();
+
+//Function to handle clearing the notes
+const handleClearForm = () => {
+  noteTitle.value = '';
+  noteText.value = '';
+  renderActiveNote();
+};
