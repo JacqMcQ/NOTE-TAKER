@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elem.style.display = 'none';
   };
 
-  // activeNote is used to keep track of the note in the textarea
+  // Active note is used to keep track of the note in the textarea
   let activeNote = {};
 
   // Fetch all notes
@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       noteText.removeAttribute('readonly');
       noteTitle.value = '';
       noteText.value = '';
+      show(saveNoteBtn);  // Ensure save button is shown when creating a new note
     }
   };
 
@@ -112,10 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Handle rendering buttons
   const handleRenderBtns = () => {
-    show(clearBtn);
     if (!noteTitle.value.trim() && !noteText.value.trim()) {
-      hide(clearBtn);
-    } else if (!noteTitle.value.trim() || !noteText.value.trim()) {
       hide(saveNoteBtn);
     } else {
       show(saveNoteBtn);
@@ -187,10 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Fetch and render notes
+  
   const getAndRenderNotes = () => getNotes().then(renderNoteList).catch((error) => console.error('Error fetching notes:', error));
 
-  // Initialize elements and event listeners
+ 
   if (window.location.pathname === '/notes') {
     noteForm = document.querySelector('.note-form');
     noteTitle = document.querySelector('.note-title');
@@ -200,11 +198,14 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBtn = document.querySelector('.clear-btn');
     noteList = document.querySelectorAll('.list-container .list-group');
 
-    saveNoteBtn.addEventListener('click', handleNoteSave);
-    newNoteBtn.addEventListener('click', handleNewNoteView);
-    clearBtn.addEventListener('click', renderActiveNote);
-    noteForm.addEventListener('input', handleRenderBtns);
+    if (saveNoteBtn) saveNoteBtn.addEventListener('click', handleNoteSave);
+    if (newNoteBtn) newNoteBtn.addEventListener('click', handleNewNoteView);
+    if (clearBtn) clearBtn.addEventListener('click', renderActiveNote);
+    if (noteForm) noteForm.addEventListener('input', handleRenderBtns);
+
+    renderActiveNote();
   }
 
+  // Fetch and render notes initially
   getAndRenderNotes();
 });
