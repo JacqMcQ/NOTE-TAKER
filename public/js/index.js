@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Show an element
   const show = (elem) => {
-    elem.style.display = 'inline';
+    elem.style.display = 'inline'; // Or 'block', 'flex', etc., depending on your layout
   };
 
   // Hide an element
@@ -134,20 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let noteListItems = [];
 
-      // Create list item HTML element
       const createLi = (note) => {
         const liEl = document.createElement('li');
         liEl.classList.add('list-group-item');
 
         const spanEl = document.createElement('span');
         spanEl.classList.add('list-item-title');
-        spanEl.innerText = note.title; // Display the title of the note
-        spanEl.dataset.note = JSON.stringify(note); // Store note data as JSON string
-        spanEl.addEventListener('click', handleNoteView); // Click event to view note
+        spanEl.innerText = note.title;
+        spanEl.dataset.note = JSON.stringify(note);
+        spanEl.addEventListener('click', handleNoteView);
 
         liEl.append(spanEl);
 
-        // Add delete button
         const delBtnEl = document.createElement('i');
         delBtnEl.classList.add(
           'fas',
@@ -191,9 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBtn = document.querySelector('.clear-btn');
     noteList = document.querySelectorAll('.list-container .list-group');
 
-    // Initially hide the "Save Note" button
-    hide(saveNoteBtn);
-
     if (saveNoteBtn) saveNoteBtn.addEventListener('click', handleNoteSave);
     if (newNoteBtn) newNoteBtn.addEventListener('click', handleNewNoteView);
     if (clearBtn) clearBtn.addEventListener('click', () => {
@@ -205,7 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderActiveNote();
   }
-
-  // Fetch and render notes initially
   getAndRenderNotes();
+
+  hide(saveNoteBtn);
+
 });
