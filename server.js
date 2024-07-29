@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid'); // Import uuid
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,7 +28,11 @@ app.post('/api/notes', express.json(), (req, res) => {
       res.status(500).json({ error: 'Failed to save note' });
     } else {
       const notes = JSON.parse(data);
-      const newNote = req.body;
+      const newNote = {
+        id: uuidv4(), // Generate a unique ID for the new note
+        title: req.body.title,
+        text: req.body.text
+      };
       notes.push(newNote);
       fs.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
         if (err) {
