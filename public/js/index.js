@@ -60,12 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
       noteTitle.value = activeNote.title;
       noteText.value = activeNote.text;
     } else {
-      hide(newNoteBtn);
+      show(clearBtn); // Ensure the clear button is shown when creating a new note
       noteTitle.removeAttribute('readonly');
       noteText.removeAttribute('readonly');
       noteTitle.value = '';
       noteText.value = '';
-      show(saveNoteBtn);  // Ensure save button is shown when creating a new note
     }
   };
 
@@ -107,16 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle creating a new note
   const handleNewNoteView = (e) => {
     activeNote = {};
-    show(clearBtn);
+    show(clearBtn);  // Ensure the clear button is visible when creating a new note
     renderActiveNote();
   };
 
-  // Handle rendering buttons
+  // Handle rendering buttons based on form input
   const handleRenderBtns = () => {
-    if (!noteTitle.value.trim() && !noteText.value.trim()) {
-      hide(saveNoteBtn);
-    } else {
+    if (noteTitle.value.trim() && noteText.value.trim()) {
       show(saveNoteBtn);
+    } else {
+      hide(saveNoteBtn);
     }
   };
 
@@ -185,10 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  
   const getAndRenderNotes = () => getNotes().then(renderNoteList).catch((error) => console.error('Error fetching notes:', error));
 
- 
   if (window.location.pathname === '/notes') {
     noteForm = document.querySelector('.note-form');
     noteTitle = document.querySelector('.note-title');
@@ -198,9 +195,16 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBtn = document.querySelector('.clear-btn');
     noteList = document.querySelectorAll('.list-container .list-group');
 
+    // Initially hide the "Save Note" button
+    hide(saveNoteBtn);
+
     if (saveNoteBtn) saveNoteBtn.addEventListener('click', handleNoteSave);
     if (newNoteBtn) newNoteBtn.addEventListener('click', handleNewNoteView);
-    if (clearBtn) clearBtn.addEventListener('click', renderActiveNote);
+    if (clearBtn) clearBtn.addEventListener('click', () => {
+      noteTitle.value = '';
+      noteText.value = '';
+      renderActiveNote();
+    });
     if (noteForm) noteForm.addEventListener('input', handleRenderBtns);
 
     renderActiveNote();
