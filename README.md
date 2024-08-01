@@ -1,5 +1,8 @@
 # NOTE-TAKER
 Note-Taker can be used to write and save notes. This application will use an Express.js back end and will save and retrieve note data from a JSON file.
+
+You can navigate to the deployed application here: https://note-taker-22ve.onrender.com
+
 ![alt text](public/assets/photos/Note-Taker-Sample.png)
 ## Description
  Note-Taker is an  application provided for  users to house different notes. This  application  also  allows for users to  store  their  data locally using  JSON  key-value pair structuring. There is the ability to add and delete notes as well as retrieve older notes from the list displayed on the left-side panel. 

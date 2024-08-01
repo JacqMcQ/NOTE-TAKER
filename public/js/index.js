@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     newNoteBtn = document.querySelector('.new-note');
     clearBtn = document.querySelector('.clear-btn');
     noteList = document.querySelectorAll('.list-container .list-group');
-
+    
     if (saveNoteBtn) saveNoteBtn.addEventListener('click', handleNoteSave);
     if (newNoteBtn) newNoteBtn.addEventListener('click', handleNewNoteView);
     if (clearBtn) clearBtn.addEventListener('click', () => {
